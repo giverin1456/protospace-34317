@@ -1,0 +1,16 @@
+<main class="main">
+  <div class="inner">
+    <% if user_signed_in? %>
+      <div class="greeting">
+        こんにちは、
+        <%= link_to "#{current_user.name}さん", user_path(current_user.id), class: :greeting__link%>
+       <%# (:user)を指定？ %>
+    <% end %>
+  </div>
+    
+    <div class="card__wrapper">
+      <%= render partial: 'prototypes/prototype', collection: @prototypes %>
+    </div>
+      <%# 投稿機能実装後、部分テンプレートでプロトタイプ投稿一覧を表示する %>
+      <%#@prototypeを繰り返し表示する。collectionオプションを使えば、インスタンスに入っている要素が複数あった場合でも、eachメソッドを使用せずにrenderで繰り返し表示%>
+</main>
