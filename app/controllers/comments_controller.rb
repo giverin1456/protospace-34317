@@ -1,15 +1,18 @@
 class CommentsController < ApplicationController
   def create
+    # binding.pry
     @comment = Comment.create(comment_params)
-    # show.html.erbのform_withのmodelオプションで使用。new?create?どちら？
     if @comment.save
-      redirect_to prototype_path(@comment.prototype)
+      redirect_to "/prototypes/#{@comment.prototype.id}"
+      return
+      # redirect_to prototype_path(@comment.prototype.id)
       # @comment.prototypeこれはなに？
     else
       @prototype = @comment.prototype
       @comments = @prototype.comments
-      render "prototypes/show" 
-      # ????????????????
+      render "prototypes/show"
+      return
+
     end
   end
 

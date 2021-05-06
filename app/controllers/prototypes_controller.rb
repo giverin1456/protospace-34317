@@ -1,9 +1,9 @@
 class PrototypesController < ApplicationController
-  before_action :authenticate_user!, except: [:index, :show, :edit]
+  before_action :authenticate_user!, only: [:new, :edit, :destroy]
   before_action :move_to_index, only: [:edit]
   def index
-    @prototypes = Prototype.all.includes(:user)
-    # @prototypes = @prototype.includes
+    @prototypes = Prototype.all
+    # @prototypes = Prototype.all.includes(:user)
   end
 
   def new
@@ -33,12 +33,11 @@ class PrototypesController < ApplicationController
     end
 
     def update
-      prototype = Prototype.find(params[:id])
-      if prototype.update(prototype_params)
-        redirect_to prototype_path
+      @prototype = Prototype.find(params[:id])
+      if @prototype.update(prototype_params)
+        redirect_to root_path
       else
         render :edit
-        # 全部消えてしまう
       end
     end
 
@@ -56,7 +55,7 @@ class PrototypesController < ApplicationController
   end
 
   def move_to_index
-    unless user_signed_in?
+    unless Prototype.find(params[:id]).user.id == current_user.id
       redirect_to action: :index
     end
   end
